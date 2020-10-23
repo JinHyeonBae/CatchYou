@@ -5,7 +5,7 @@ import { withRouter } from "react-router-dom";
 import Banner from "../_partials/Banner/Banner";
 
 function RegisterPage(props) {
-  const dispatch = useDispatch();
+
 
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
@@ -41,14 +41,6 @@ function RegisterPage(props) {
       name: Name,
     };
 
-    dispatch(registerUser(body)).then((response) => {
-      if (response.payload.success) {
-        alert("회원가입이 완료되었습니다.");
-        props.history.push("/login");
-      } else {
-        alert("Failed to sign up");
-      }
-    });
   };
 
   return (

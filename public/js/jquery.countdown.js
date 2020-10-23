@@ -169,21 +169,7 @@
                 months: Math.floor(this.totalSecsLeft / 60 / 60 / 24 / 30),
                 years: Math.floor(this.totalSecsLeft / 60 / 60 / 24 / 365)
             };
-            if (this.totalSecsLeft === 0) {
-                this.stop();
-                this.dispatchEvent("finish");
-            } else {
-                this.dispatchEvent("update");
-            }
-        },
-        dispatchEvent: function(eventName) {
-            var event = $.Event(eventName + ".countdown");
-            event.finalDate = this.finalDate;
-            event.offset = $.extend({}, this.offset);
-            event.strftime = strftime(this.offset);
-            this.$el.trigger(event);
-        }
-    });
+
     $.fn.countdown = function() {
         var argumentsArray = Array.prototype.slice.call(arguments, 0);
         return this.each(function() {

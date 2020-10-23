@@ -1,12 +1,11 @@
 import React, { Fragment, useState } from 'react';
 import './creatingTopicModal.scss';
-import { useDispatch } from "react-redux";
+
 import { addTopic } from "../../../../_actions/topicAction";
 import { useHistory } from 'react-router';
 import { withRouter } from "react-router-dom";
 
 function CreatingTopicModal(props){
-  const dispatch = useDispatch();
 
   const [TopicName, setTopicName] = useState("");
   const [TopicType, setTopicType] = useState("");
@@ -21,17 +20,7 @@ function CreatingTopicModal(props){
       topicType : TopicType,
       topicDesc : TopicDesc,
     };
-    dispatch(addTopic(newTopic)).then((response) => {
-      console.log('response : ', response);
-      if (response.payload.success) {
-        history.go(0);
-      } else {
-        alert("Failed to make a new topic.");
-      }
-    })
-    .catch((req)=>{
-      console.log("catched : ", req);
-    })
+
   } 
   
   const onChangeTopic = (e) => {

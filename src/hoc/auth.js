@@ -2,17 +2,17 @@
 // ex. auth함수
 
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+
 import { authUser } from "../_actions/userAction";
 
-export default (SpecificComponent, option, adminRoute = null) => {
+export default (SpecificComponent, option, adminRoute = null) => {}
   // option 값
   // null     => 아무나 출입이 가능한 페이지
   // true     => 로그인한 유저만 출입이 가능한 페이지
   // false    => 로그인한 유저는 출입 불가능한 페이지
   // admin은 true주면됨
-  const AuthenticationCheck = (props) => {
-    const dispatch = useDispatch();
+  /*const AuthenticationCheck = (props) => {
+   
     useEffect(() => {
       // dispatch
       dispatch(authUser()).then((response) => {
@@ -44,4 +44,4 @@ export default (SpecificComponent, option, adminRoute = null) => {
     return <SpecificComponent />;
   };
   return AuthenticationCheck;
-};
+};*/

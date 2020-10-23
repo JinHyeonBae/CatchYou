@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+//import { useSelector } from "react-redux";
 import Axios from "axios";
 import { USER_SERVER } from "../../../../Config";
 import { withRouter } from "react-router-dom";
@@ -10,7 +10,7 @@ import moon from "../../../../images/icons/moon.png";
 import logo from "../../../../images/logo.png";
 
 function Header(props) {
-  const user = useSelector((state) => state.user);
+ // const user = useSelector((state) => state.user);
   const [CurID, setCurID] = useState("");
 
   useEffect(() => {

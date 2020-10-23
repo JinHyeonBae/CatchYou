@@ -9,19 +9,7 @@ function TopicListWidget(props) {
     const [lists, setLists] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
 
-    const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(getTopicList())
-            .then((response) => {
-            setLists(response.payload.topics);
-            if (!response.payload.success){
-              alert("Failed to make a new topic.");
-            }
-          })
-          .catch((req)=>{
-            console.log("catched : ", req);
-          })
-    }, []);
+  
 
     const handleOpenModal = () => {
       setModalVisible(true);

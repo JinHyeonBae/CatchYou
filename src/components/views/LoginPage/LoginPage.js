@@ -6,7 +6,7 @@ import "./loginStyle.scss";
 import Banner from "../_partials/Banner/Banner";
 
 function LoginPage(props) {
-  const dispatch = useDispatch();
+ 
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
 
@@ -30,15 +30,7 @@ function LoginPage(props) {
       password: Password,
     };
 
-    dispatch(loginUser(body)).then((response) => {
-      if (response.payload.loginSuccess) {
-        alert("로그인에 성공하셨습니다.");
-        props.history.push("/");
-        window.location.reload(); // 페이지 로딩이 정상적으로 안돼서 그냥 리로드 시킨다.
-      } else {
-        alert("Login Error");
-      }
-    });
+
   };
 
   // const onNaverLogin = () => {

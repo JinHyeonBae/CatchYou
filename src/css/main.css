@@ -162,7 +162,7 @@ p{
 	max-width:2400px;
 	padding:0px 15px;
 	margin:0 auto;
-}
+} /*margin :0 auto => 0, width 추가*/
 
 .medium-container{
 	max-width:850px;
@@ -505,7 +505,6 @@ img{
 .sec-title{
 	position:relative;
 	z-index:1;
-	margin-bottom:20px;
 }
 
 .sec-title h4{
@@ -2216,6 +2215,7 @@ img{
 .sidebar-page-container .sidebar-side{
 	margin-bottom:40px;
 }
+
 
 .sidebar-widget{
 	margin-bottom:30px;

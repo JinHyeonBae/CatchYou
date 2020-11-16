@@ -1,0 +1,14 @@
+
+type chatInfo{
+    topicName: String
+    topicType: String
+    topicDes : String
+    nickName : String
+}
+
+type Query{
+    topic: chatInfo
+}
+
+
+

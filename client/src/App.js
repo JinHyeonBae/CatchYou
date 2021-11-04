@@ -3,23 +3,66 @@ import './App.css';
 
 import './component/css/Page.scss'
 
-import Header from './component/Header'
-import Buttons from './component/Buttons'
-import Content from './component/container/Content'
+import axios from 'axios'
+import React, {useEffect, useState} from 'react'
 
-function App() {
+import kefir from 'kefir'
 
-  const activeButton = (e)=>{
-    console.log(e.target)
+
+
+function App(){
+
+    const [userState, setUserState] = useState({
+      isLoaded : false,
+      ur_data : [{
+        "width" : 0,
+        "height" : 0,
+        "vertical" : 0,
+        "horizental" : 0
+      }]
+    })
+
+
+  // mount 이후
+  useEffect(()=>{
+
+    axios.get("http://localhost:5000",
+    {headers: {'Access-Control-Allow-Origin': '*'}
+    })
+      .then(
+        (result) => {
+          console.log("userState :", userState)
+          const { data  }= result;
+          console.log("result _ data :", data)
+          
+          setUserState({
+            isLoaded : true,
+            ur_data : userState.ur_data.concat(data)
+          })
+        },
+        (error) => {
+          setUserState({
+            isLoaded: true,
+            error
+          });
+        }
+      )
+    },[])
+
+  const updateState = (newState) =>{
+    console.log("newState: ", newState)
+    console.log("Server side event recieved at",new Date())
+    setUserState(Object.assign({}, { data: newState }));
   }
 
-  return (
-    <div className="page-wrapper">
-      <Header/>
-      <Buttons click={activeButton}/>
-      <Content/>
-    </div>
-  );
+    return(
+      <div>{userState.ur_data.map((line, index)=>{
+          console.log(line)
+          return <div>{index} : {line.vertical}</div>
+        })}
+      </div>
+    )
 }
+
 
 export default App;

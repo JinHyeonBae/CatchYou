@@ -26,13 +26,18 @@ function App(){
   // mount 이후
   useEffect(()=>{
 
-    axios.get("http://localhost:5000",
-    {headers: {'Access-Control-Allow-Origin': '*'}
+    axios.get("http://localhost:5000",{
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS',
+        'Access-Control-Max-Age' : 3600,
+        'Access-Control-Allow-Headers': 'Origin,Accept,X-Requested-With,Content-Type,Access-Control-Request-Method,Access-Control-Request-Headers,Authorization'
+        }
     })
       .then(
         (result) => {
-          console.log("userState :", userState)
           const { data  }= result;
+          console.log("result :", result)
           console.log("result _ data :", data)
           
           setUserState({
@@ -47,7 +52,7 @@ function App(){
           });
         }
       )
-    },[])
+    })
 
   const updateState = (newState) =>{
     console.log("newState: ", newState)
@@ -56,7 +61,8 @@ function App(){
   }
 
     return(
-      <div>{userState.ur_data.map((line, index)=>{
+      <div>
+        {userState.ur_data.map((line, index)=>{
           console.log(line)
           return <div>{index} : {line.vertical}</div>
         })}

@@ -7,11 +7,15 @@ from multiprocessing import Queue
 
 import threading, traceback, time
 import logging, datetime, random, flask, sys
+import flask_cors
+
+from werkzeug.datastructures import Headers
 
 from classes.socketServer import socketServer
 from classes.DTO import DTO
 from classes.producer import Producer
 from classes.consumer import Consumer
+from classes.redis import Pubsub
 
 
 app = Flask(__name__)
@@ -30,9 +34,13 @@ log.addHandler(h)
 
 @app.route('/')
 def stream():
-    data = consumer.run()
-    print("run data :", data)
-    return jsonify(data)
+    print("stream Enter")
+    pub_data = pubsub.get()
+ 
+    response = make_response(pub_data)
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    
+    return response
 
 
 
@@ -41,9 +49,13 @@ if __name__ == '__main__':
         socket = socketServer()
         producer = Producer()
         consumer = Consumer()
+        pubsub = Pubsub()
         
+        pubsub.subscribe('calibration')
+
         socketThread = threading.Thread(target=socket.socketConnect)
         socketThread.start()
+
 
         app.run(debug=True,host='localhost',port=5000)
         

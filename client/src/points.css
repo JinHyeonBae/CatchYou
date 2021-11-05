@@ -1,0 +1,20 @@
+
+
+
+
+
+.left_point{
+    display: inline-block;
+    position: relative;
+    background-color: blueviolet;
+    height: 1.5rem;
+    width : 1.5rem;
+}
+
+.right_point{
+    display: inline-block;
+    position: relative;
+    background-color: aquamarine;
+    height: 1.5rem;
+    width : 1.5rem;
+}

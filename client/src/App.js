@@ -4,21 +4,28 @@ import './App.css';
 import './component/css/Page.scss'
 
 import axios from 'axios'
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useRef} from 'react'
 
 import kefir from 'kefir'
+
+import DrawPoints from './Draw'
+
+
 
 
 
 function App(){
 
-    const [userState, setUserState] = useState({
+  const canvasRef = useRef()
+  const [userState, setUserState] = useState({
       isLoaded : false,
       ur_data : [{
         "width" : 0,
         "height" : 0,
-        "vertical" : 0,
-        "horizental" : 0
+        "left_x" : -10,
+        "left_y" : 0,
+        "right_x" : -10,
+        "right_y" : 0
       }]
     })
 
@@ -39,11 +46,11 @@ function App(){
           const { data  }= result;
           console.log("result :", result)
           console.log("result _ data :", data)
-          
-          setUserState({
+          console.log("useState :", userState.ur_data)
+          setUserState(prev=> {return {
             isLoaded : true,
-            ur_data : userState.ur_data.concat(data)
-          })
+            ur_data : [...prev.ur_data, data]
+          }})
         },
         (error) => {
           setUserState({
@@ -62,10 +69,12 @@ function App(){
 
     return(
       <div>
-        {userState.ur_data.map((line, index)=>{
-          console.log(line)
-          return <div>{index} : {line.vertical}</div>
-        })}
+        <div id="pupil-canvas" ref = {canvasRef} style={{'border' : '5px solid black', 'width' :480, 'height' :720 }}>
+          {userState.ur_data.map((ur, index)=>{
+              console.log(ur)
+              return <DrawPoints key={index} ur_data={ur} ></DrawPoints>
+          })}
+        </div>
       </div>
     )
 }

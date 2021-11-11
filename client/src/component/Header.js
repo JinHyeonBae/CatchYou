@@ -3,16 +3,18 @@
 
 
 
+export default function Header(){
 
+    const HeaderStyle={
+        position : 'fixed',
+        height : '2rem',
+        width : '100%'
+    }
 
-function Header(){
-
-
-    return (
-        <header className="header">
-            Header
+    return(
+        <header>
+            Cheating Recognization System
         </header>
     )
-}
 
-export default Header
+}

@@ -5,7 +5,7 @@ export default function Percentage(props){
 
     const [ch_per, set_ch_per] = useState(0)
     const [index, set_index] = useState(0)
-    const {percent} = props
+    const {percent, className} = props
 
     useEffect(()=>{
         console.log(percent.length)
@@ -18,7 +18,7 @@ export default function Percentage(props){
     })
 
     return(
-        <div>
+        <div className={className}>
             사용자님의 부정행위 확률은
             {ch_per}
         </div>

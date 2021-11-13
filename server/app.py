@@ -7,15 +7,13 @@ from multiprocessing import Queue
 
 import threading, traceback, time
 import logging, datetime, random, flask, sys
-import flask_cors
+import flask_cors, json
 
 from werkzeug.datastructures import Headers
 
-from classes.socketServer import socketServer
-from classes.DTO import DTO
-from classes.producer import Producer
-from classes.consumer import Consumer
-from classes.redis import Pubsub
+from classes.socketServer import socketServer,connect_socket_to_dto
+from classes.redisQueue import Pubsub
+from classes.cheating_detect import Pupil, Sound
 
 
 app = Flask(__name__)
@@ -32,32 +30,43 @@ log.addHandler(h)
 
 
 
-@app.route('/')
-def stream():
-    print("stream Enter")
-    pub_data = pubsub.get()
- 
+@app.route('/pupil')
+def pupil_stream():
+    print("pupil stream")
+    
+    pub_data = pupil.get()
+    # channel 부분의 값 byte
+
     response = make_response(pub_data)
     response.headers['Access-Control-Allow-Origin'] = '*'
-    
+    print(response)
     return response
+
+@app.route('/sound')
+def sound_stream():
+    print("sound stream")
+
+    # queue_data = sound.get()
+    # response = make_response(queue_data)
+    # response.headers['Access-Control-Allow-Origin'] = '*'
+    
+    # return response
+    
 
 
 
 if __name__ == '__main__':
     try:
-        socket = socketServer()
-        producer = Producer()
-        consumer = Consumer()
-        pubsub = Pubsub()
-        
-        pubsub.subscribe('calibration')
+        classify = connect_socket_to_dto()
+        pupil = Pupil()
+        sound = Sound()
 
-        socketThread = threading.Thread(target=socket.socketConnect)
+        pupil.pubsub.subscribe('pupil')
+        
+        socketThread = threading.Thread(target=classify.run)
         socketThread.start()
 
-
-        app.run(debug=True,host='localhost',port=5000)
+        app.run(debug=True, host='localhost',port=5000)
         
     except Exception as e :
         print(traceback.format_exc())

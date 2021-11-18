@@ -1,5 +1,5 @@
 from queue import Empty
-from flask import Flask,jsonify, make_response, g
+from flask import Flask,jsonify, make_response
 from apscheduler.schedulers.background import BackgroundScheduler
 from flask_cors import CORS
 from multiprocessing import Queue
@@ -33,24 +33,35 @@ log.addHandler(h)
 @app.route('/pupil')
 def pupil_stream():
     print("pupil stream")
-    
-    pub_data = pupil.get()
-    # channel 부분의 값 byte
+    try:
+        pub_data = pupil.get()
+        print("stream : pub_data :", pub_data)
+        print("stream : pub_data :", type(pub_data))
+        #data 내부 bytes 처리
 
-    response = make_response(pub_data)
-    response.headers['Access-Control-Allow-Origin'] = '*'
-    print(response)
-    return response
+        response = make_response(pub_data)
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        print("response :", response)
+        return response
+    except Exception : 
+        print(traceback.format_exc())
 
 @app.route('/sound')
 def sound_stream():
     print("sound stream")
 
-    # queue_data = sound.get()
-    # response = make_response(queue_data)
-    # response.headers['Access-Control-Allow-Origin'] = '*'
-    
-    # return response
+    try:
+        pub_data = sound.get()
+        print("stream : pub_data :", pub_data)
+        print("stream : pub_data :", type(pub_data))
+        #data 내부 bytes 처리
+
+        response = make_response(pub_data)
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        print("response :", response)
+        return response
+    except Exception : 
+        print(traceback.format_exc())
     
 
 
@@ -62,6 +73,7 @@ if __name__ == '__main__':
         sound = Sound()
 
         pupil.pubsub.subscribe('pupil')
+        sound.pubsub.subscribe('sound')
         
         socketThread = threading.Thread(target=classify.run)
         socketThread.start()

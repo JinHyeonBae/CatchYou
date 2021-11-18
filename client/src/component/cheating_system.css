@@ -14,8 +14,17 @@
     padding : 1rem;
 }
 
-
 .percentage{
+    width : 50%;
+    height : 100%
+}
+
+.saying_word{
+    width : 50%;
+    height : 100%;
+}
+
+.cheating_word{
     width : 50%;
     height : 100%
 }

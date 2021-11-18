@@ -1,0 +1,25 @@
+.App {
+  text-align: center;
+}
+
+body{
+  width: 100vw;
+  height: 100vh;
+  margin: 0ch;
+}
+
+.top{
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+}
+
+header{
+  height: 15%;
+}
+
+.component{
+  height: 75%;
+  overflow: hidden;
+}

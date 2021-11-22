@@ -4,7 +4,7 @@ import DrawPoints from "./Draw"
 
 import React, {useEffect, useState,useRef, Fragment} from 'react'
 import './points.css'
-import './cheating_system.css'
+import '../cheating_system.css'
 import axios from "axios"
 
 
@@ -12,10 +12,9 @@ import axios from "axios"
 
 export default function Pupil(){
 
-    console.log("pip")
-
     const [userState, setUserState] = useState({
         isLoaded : false,
+        cheat_percentage : 0,
         ur_data : [{
           "width" : 0,
           "height" : 0,
@@ -23,7 +22,6 @@ export default function Pupil(){
           "left_y" : 0,
           "right_x" : -70,
           "right_y" : 0,
-          "cheat_percentage" : 0
         }]
       })
 
@@ -42,12 +40,16 @@ export default function Pupil(){
       .then(
           (result) => {
             const { data  }= result;
-            console.log("result :", result)
-            setUserState(prev=> {return {
-              isLoaded : true,
-              ur_data : [...prev.ur_data, data]
-            }})
-
+            const {cheat_percentage, ...other} = data
+            console.log(cheat_percentage)
+            console.log("c :", other)
+            setUserState(prev => {
+              return {
+                isLoaded : true,
+                ur_data : [...prev.ur_data, other],
+                cheat_percentage : cheat_percentage
+              }
+            })
           },
           (error) => {
             console.error(error)
@@ -57,20 +59,14 @@ export default function Pupil(){
             });
           }
         )
-        
       })
+
   
-    const updateState = (newState) =>{
-      console.log("newState: ", newState)
-      console.log("Server side event received at",new Date())
-      setUserState(Object.assign({}, { data: newState }));
-    }
-  
-      return(
+    return(
         <Fragment>
           <div id="system-container">
             <DrawPoints className="points" ur_data={userState.ur_data}/>
-            <Percentage className="percentage" percent={userState.ur_data} />
+            <Percentage className="percentage" percentage={userState.cheat_percentage} />
           </div>
         </Fragment>
       )

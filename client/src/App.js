@@ -13,10 +13,6 @@ import Sound from './component/Sound/SoundPage'
 import Yolo from './component/Yolo/YoloPage'
 
 
-const componentStyle={
-
-}
-
 
 function App(){
   return(

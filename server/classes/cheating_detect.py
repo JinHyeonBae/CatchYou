@@ -1,8 +1,10 @@
 
 
-import traceback, json
+import traceback, json, ast
 #from classes.DTO import DTO
 from classes.redisQueue import RedisQueue,Pubsub
+import random
+# 
 
 class Pupil():
 
@@ -19,27 +21,36 @@ class Pupil():
             "left_y" : 0,
             "right_x" : 0,
             "right_y" : 0,
-            "cheat" : None,
             "cheat_percentage" : 0
+        }
+        self.obj = {
+            'left_x': 0, 
+            'left_y': 0, 
+            'right_x' : 0,
+            'right_y' : 0,
+            'cheat' : 0,
+            'type' : 0
         }
 
     # 여기서 데이터를 받아와서 화면의 크기 비율을 계산한다
     def calc_screen(self):
         pass
     
-    def pupil_dto_Process(self, pupil_value):
+    
+    def pupil_dto_Process(self, pupil_value : dict):
         try:
-
-            print("pupil_value :",pupil_value)
+            print("pupil_value : ",pupil_value)
             # calc_screen 이후
             #self.set_screen(caliData['width'], caliData['height']) 
             self.set_screen(480, 720)
-            self.set_pupil_ratio(pupil_value["left_x"], pupil_value["left_y"], pupil_value["right_x"], pupil_value["right_y"])
+            # self.set_pupil_ratio(pupil_value["left_x"], pupil_value["left_y"], pupil_value["right_x"], pupil_value["right_y"])
 
-            self.check_cheating(pupil_value["cheat"])
-            self.count()
-            self.set_cheating_ratio()
-            self.put()
+            # self.check_cheating(pupil_value["cheat"])
+            # self.count()
+            # self.set_cheating_ratio()
+            # self.put()
+            self.obj.update(pupil_value)
+            print("self.obj :", self.obj)
 
         except Exception as e:
             print(traceback.format_exc())
@@ -60,17 +71,18 @@ class Pupil():
 
     def set_cheating_ratio(self):
         user_info = self.pupil_data
-
+        
         true_pcent = self.true_count / self.data_count
-        print("true_pcent :", true_pcent)
+        #print("true_pcent :", true_pcent)
         user_info['cheat_percentage'] = round(true_pcent, 2)
-        print("cheat_percentage :", user_info['cheat_percentage'])
+        #print("cheat_percentage :", user_info['cheat_percentage'])
         
     # data count
     def count(self):
         self.data_count+=1
 
     def check_cheating(self, isCheating):
+        print("isCheating :", isCheating)
         if isCheating:
             self.true_count+=1
 
@@ -79,20 +91,18 @@ class Pupil():
         self.pubsub.publish('pupil', element_str)
 
     def get(self):
-        gen = self.pubsub.pubsub.listen()
-        print("gen type :",type(gen))
-        print("hello")
+        # gen = self.pubsub.listen()
 
-        for pub_data in gen:
-            for key in pub_data:
-                if isinstance(pub_data[key], bytes):
-                    pub_data.update({key : pub_data[key].decode()})
-                    print("pubsub :", pub_data)
-            
-        return pub_data
-        
-        
+        # try:
+        #     for pub_data in gen:
+        #         #pub_data = ast.literal_eval(pub_data.decode('utf-8'))
+        #         return pub_data
+        # except AttributeError as e:
+        #     print(traceback.format_exc())
+        #     pass
 
+        print("self.obj in get :", self.obj)
+        return self.obj
 
 
 class Sound():
@@ -104,34 +114,41 @@ class Sound():
         self.sound_data = {
             "success": True,
             "error": None,
-            "transcription": None                
+            "transcription": None,
+            "cheating_word" : []            
         }
 
-    def sound_dto_Process(self, sound_value):
+    def sound_dto_Process(self, sound_value : dict):
         sound = self.sound_data
-
+        print("sound_value :", type(sound_value))
         try:
-            sound['suceess'] = sound_value['success']
+            sound['success'] = sound_value['success']
             sound['error'] = sound_value['error']
             sound['transcription'] = sound_value['transcription']
+            sound['cheating_word'] = (sound_value['cheating_word'])
+            
+            self.put()
 
         except Exception :
-            print(traceback.exec())
+            print(traceback.format_exc())
 
-    # 큐에 저장
     def put(self):
         element_str = json.dumps(self.sound_data)
-        self.pubsub.put(element_str)
-
-    def run(self, loads_data):
-        self.sound_dto_Process(loads_data)
+        print("sound element :", element_str)
+        self.pubsub.publish('sound', element_str)
 
     def get(self):
-        gen = self.pubsub.pubsub.listen()
+        gen = self.pubsub.listen()
 
-
-        for pub_data in gen:
-            return pub_data
+        try:
+            for pub_data in gen:
+                #pub_data = ast.literal_eval(pub_data.decode('utf-8'))
+                print("sound_pub :", pub_data)
+                return pub_data
+        except AttributeError as e:
+            print(traceback.format_exc())
+            pass
+        
 
 
 #class personRecognition()

@@ -25,7 +25,19 @@ export default function PersonLocation(props){
     let ctx = null;
     
     console.log(props)
-    // initialize the canvas context
+
+    
+    const width = window.screen.width
+    const height = window.screen.height
+
+    const canvasStyle = {
+        'width' : width / 2.5,
+        'height' : height /2.5,
+        'margin' : 0,
+        'border': '4px solid black'
+    }
+
+
     useEffect(() => {
 
       // dynamically assign the width and height to canvas
@@ -53,7 +65,7 @@ export default function PersonLocation(props){
     return(
         <div className="person_detection">
             현재 인식된 사람의 위치
-            <canvas className="yolo_canvas" ref={recRef}>
+            <canvas className="yolo_canvas" ref={recRef} style={canvasStyle}>
             </canvas>
         </div>
     )

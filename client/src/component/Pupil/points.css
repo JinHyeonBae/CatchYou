@@ -4,9 +4,12 @@
 .points_canvas{
     margin : 0 auto;
     border: 4px solid black;
-    width: 80%;
-    height: 60%;
 }
+
+/* 
+@media screen min 1248px {
+    
+} */
 
 .left_point{
     display: inline-block;
@@ -23,3 +26,21 @@
     height: 1.5rem;
     width : 1.5rem;
 }
+
+
+.points .explain_header{
+    text-align: left;
+}
+.points .explain_header h2, h3, h1{
+    display: inline;
+    font-family: "amsterdam";
+    margin-right: 1rem;
+}
+
+.percentage{
+    display: inline-block;
+    font-family: "amsterdam";
+    text-align: center;
+    width: 100%;
+}
+

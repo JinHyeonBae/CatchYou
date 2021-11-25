@@ -8,14 +8,19 @@ export default function SystemButton(){
     const Style ={
         divStyle : {
             position : 'relative',
+            display : 'flex',
+            flexDirection : 'row',
             width : '100%',
             height : '10%',
-            backgroundColor : 'lavender'
+            backgroundColor : 'lavender',
+            justifyContent : 'space-around'
         },
         buttonStyle : {
             textDecoration: 'none',
-            color : 'black',
-            margin : '0.5rem'
+            color : 'white',
+            margin : '0.5rem',
+            fontFamily : "amsterdam",
+            fontSize : '3rem'
         }
     }
 

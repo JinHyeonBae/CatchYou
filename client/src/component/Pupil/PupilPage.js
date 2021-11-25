@@ -4,7 +4,6 @@ import DrawPoints from "./Draw"
 
 import React, {useEffect, useState,useRef, Fragment} from 'react'
 import './points.css'
-import '../cheating_system.css'
 import axios from "axios"
 
 
@@ -39,17 +38,19 @@ export default function Pupil(){
       //.then(r => r.json())
       .then(
           (result) => {
+            console.log("result :", result)
             const { data  }= result;
             const {cheat_percentage, ...other} = data
             console.log(cheat_percentage)
-            console.log("c :", other)
-            setUserState(prev => {
-              return {
-                isLoaded : true,
-                ur_data : [...prev.ur_data, other],
-                cheat_percentage : cheat_percentage
-              }
-            })
+            console.log("c :", typeof(other))
+            // setUserState(prev => {
+            //   console.log(prev.ur_data)
+            //   return {
+            //     isLoaded : true,
+            //     ur_data : [...prev.ur_data, other],
+            //     cheat_percentage : cheat_percentage
+            //   }
+            // })
           },
           (error) => {
             console.error(error)

@@ -1,5 +1,10 @@
 
 
+@font-face {
+    font-family: "amsterdam";
+    src: url('../fonts/amsterdam.ttf');
+}
+
 #system-container{
     display: flex;
     flex-direction: row;
@@ -7,24 +12,22 @@
     height: 100%;
 }
 
+h1, h2, h3{
+    font-family: "amsterdam";
+    text-align: center;
+    display: inline-block;
+}
 
-.points{
+.points, .person_detection{
     width : 50%;
     height : 100%;
     padding : 1rem;
 }
 
-.percentage{
-    width : 50%;
-    height : 100%
-}
+.percentage, .saying_word, .cheating_word, .person_counting{
 
-.saying_word{
     width : 50%;
     height : 100%;
+    padding: 1rem;
 }
 
-.cheating_word{
-    width : 50%;
-    height : 100%
-}

@@ -23,15 +23,18 @@ export default function DrawPoints(props) {
 
     return(
         <div className="points">
-            <div className="left_point"></div> : 왼쪽 눈 <div className="right_point"></div> : 오른쪽 눈
+            <h4 className="explain_header">
+                <div className="left_point" ></div> <h2>: 왼쪽 눈</h2> 
+                <div className="right_point"></div> <h2>: 오른쪽 눈</h2>
+            </h4>
             <div className="points_canvas" style={canvasStyle}>
                 {ur_data? ur_data.map((ur, index)=>{
                     console.log(ur)
                     if(index == 0) return;
                     return(
                         <Fragment>
-                            <div className="left_point" style={{'left' : ur.left_x, 'top' : ur.left_y}}></div>
-                            <div className="right_point" style={{'left' : ur.right_x, 'top' : ur.right_y}}></div>
+                            <div className="left_point" style={{'left' : ur.left_x /2, 'top' : ur.left_y/2}}></div>
+                            <div className="right_point" style={{'left' : ur.right_x/2, 'top' : ur.right_y/2}}></div>
                         </Fragment>
                     )
                 }) : ''}

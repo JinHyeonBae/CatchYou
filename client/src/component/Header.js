@@ -5,10 +5,14 @@
 
 export default function Header(){
 
+    const style={
+        'textAlign' : 'center',
+        'font-family': "amsterdam"
+    }
 
     return(
         <header>
-            <h2>Cheating Recognization System</h2>
+            <h1 style={style}>Cheating Recognization System</h1>
         </header>
     )
 
